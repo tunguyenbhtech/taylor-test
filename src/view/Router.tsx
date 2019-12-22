@@ -5,9 +5,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import { ErrorActions } from 'src/state/_actions';
 import { ErrorRedux } from 'src/state/reducers';
+import Modal from 'react-bootstrap/Modal';
 
 /**
  * handle showing app global error modal
@@ -73,27 +74,26 @@ const Router = () => {
           <PrivateRoute component={ PaymentMethods } path='/payment-methods' />
           <PrivateRoute component={ AccountSettingsPage } path='/account-settings' /> */}
             </Switch>
-            {/* <Modal
-          // backdrop='static'
-          className="p-0"
-          show={showModal}
-        >
-          <Modal.Header closeButton className="border-bottom-0">
-            <h2>{`Error`}</h2>
-          </Modal.Header>
-          <Modal.Body>
-            {currentError && currentError.message}
-          </Modal.Body>
-          <Modal.Footer className="border-top-0">
-            <Button
-              className="font-weight-bold"
-              variant="danger"
-              onClick={onModalOkClick}
+
+            <Modal
+                // backdrop='static'
+                className="p-0"
+                show={showModal}
             >
-              {`Ok`}
-            </Button>
-          </Modal.Footer>
-        </Modal> */}
+                <Modal.Header closeButton className="border-bottom-0">
+                    <h2>{`Error`}</h2>
+                </Modal.Header>
+                <Modal.Body>{currentError && currentError.message}</Modal.Body>
+                <Modal.Footer className="border-top-0">
+                    <Button
+                        className="font-weight-bold"
+                        variant="danger"
+                        onClick={onModalOkClick}
+                    >
+                        {`Ok`}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </BrowserRouter>
     );
 };

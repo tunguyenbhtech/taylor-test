@@ -1,8 +1,11 @@
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css
+
+import * as serviceWorker from './serviceWorker';
+
+import App from './view/App';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './view/App';
-import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
