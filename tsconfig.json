@@ -18,7 +18,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "baseUrl": "./"
+    "baseUrl": "./"  // cra take baseUrl settings
   },
   "include": [
     "src"
