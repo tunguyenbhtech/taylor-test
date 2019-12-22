@@ -2,9 +2,12 @@ import * as AppActions from './App';
 import * as ErrorActions from './Error';
 import * as FetchingActions from './Fetching';
 
-export { AppActions, ErrorActions, FetchingActions };
+import * as CommitActions from './Commit';
+
+export { AppActions, ErrorActions, FetchingActions, CommitActions };
 
 export type RootAction =
     | AppActions.AppActions
     | ErrorActions.ErrorActions
-    | FetchingActions.FetchingActions;
+    | FetchingActions.FetchingActions
+    | CommitActions.CommitActions;
