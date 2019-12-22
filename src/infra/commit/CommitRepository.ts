@@ -1,10 +1,16 @@
 import { API_CONFIG, APP_CONFIG } from 'src/constants';
 import { ApiService } from 'src/infra/api/ApiService';
+import { ApiResponse, LinkHeader } from 'src/infra/api/interfaces';
 import { Commit } from 'src/domain/commit';
 import { CommitResponse } from './interfaces';
 
 interface Dependencies {
     apiService: ApiService;
+}
+
+export interface GetRepoCommitsRes {
+    commits: Commit[];
+    linkInfo?: LinkHeader;
 }
 
 export class CommitRepository {
@@ -14,10 +20,10 @@ export class CommitRepository {
         this.apiService = apiService;
     }
 
-    async getRepoCommits(page?: number): Promise<Commit[]> {
-        const url = `/repos/${API_CONFIG.GITHUB.user}/${API_CONFIG.GITHUB.repo}/commits`;
+    async getRepoCommits(page?: number): Promise<GetRepoCommitsRes> {
+        const url = `repos/${API_CONFIG.GITHUB.user}/${API_CONFIG.GITHUB.repo}/commits`;
 
-        const res: CommitResponse[] = await this.apiService.get({
+        const res: ApiResponse<CommitResponse[]> = await this.apiService.get({
             url,
             data: {
                 page,
@@ -25,7 +31,10 @@ export class CommitRepository {
             },
         });
 
-        return res.map(this._serializeCommit);
+        return {
+            commits: res.data.map(this._serializeCommit),
+            linkInfo: res.meta?.link,
+        };
     }
 
     private _serializeCommit(res: CommitResponse): Commit {

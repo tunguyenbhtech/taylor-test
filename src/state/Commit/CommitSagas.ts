@@ -32,8 +32,8 @@ const getRepoCommits = function*(
         const channel = eventChannel<GetRepoCommitsBehaviourRes>(emitter => {
             getRepoCommitsBehaviour(
                 {
-                    onSuccess: commits => {
-                        emitter({ commits });
+                    onSuccess: (commits, linkInfo) => {
+                        emitter({ commits, linkInfo });
                         emitter(END);
                     },
                     onError: error => {
@@ -60,7 +60,11 @@ const getRepoCommits = function*(
 
         // cast take channel data to SignInUserBehaviourRes since take channel is returning unknown type
         // TODO: why does take channel return unknown even when channel return tyep is defined ?
-        const { commits, error } = input as GetRepoCommitsBehaviourRes;
+        const {
+            commits,
+            linkInfo,
+            error,
+        } = input as GetRepoCommitsBehaviourRes;
 
         // Handle the data...
         if (error) {
@@ -68,8 +72,10 @@ const getRepoCommits = function*(
         }
 
         if (commits) {
-            // set new commit list to redux
-            yield put(CommitActions.getRepoCommitsSuccess(commits, meta));
+            // set new commit list to redux and also return pageInfo
+            yield put(
+                CommitActions.getRepoCommitsSuccess(commits, linkInfo, meta),
+            );
         }
     } catch (e) {
         yield put(ErrorActions.requestFailure(e, undefined, meta));

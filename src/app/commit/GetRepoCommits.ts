@@ -1,9 +1,10 @@
 import { Commit } from 'src/domain/commit';
 
 import { CommitRepository } from 'src/infra/commit/CommitRepository';
+import { LinkHeader } from 'src/infra/api/interfaces';
 
 interface Callbacks {
-    onSuccess: (res: Commit[]) => void;
+    onSuccess: (res: Commit[], linkInfo?: LinkHeader) => void;
     onError: (error: Error) => void;
 }
 
@@ -13,6 +14,7 @@ interface Dependencies {
 
 export interface GetRepoCommitsBehaviourRes {
     commits?: Commit[];
+    linkInfo?: LinkHeader;
     error?: Error;
 }
 
@@ -35,7 +37,7 @@ export default ({
         try {
             const commitListRes = await commitRepository.getRepoCommits(page);
 
-            return onSuccess(commitListRes);
+            return onSuccess(commitListRes.commits, commitListRes.linkInfo);
         } catch (error) {
             return onError(error);
         }

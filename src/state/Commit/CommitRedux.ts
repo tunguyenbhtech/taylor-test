@@ -5,6 +5,7 @@ import { createReducer, getType } from 'typesafe-actions';
 import { Commit } from 'src/domain/commit';
 import { CommitActions } from 'src/state/_actions';
 import { CommitState } from './interfaces';
+import { LinkHeader } from 'src/infra/api/interfaces';
 import { produce } from 'immer';
 
 const stateKey = 'contact';
@@ -12,6 +13,7 @@ const stateKey = 'contact';
 /* ------------- Initial State ------------- */
 const INITIAL_STATE: CommitState = {
     commits: [],
+    pageInfo: undefined,
 };
 
 /* ------------- Reducers ------------- */
@@ -20,11 +22,12 @@ const getRepoCommits = R.identity;
 const getRepoCommitsSuccess = (
     state: CommitState,
     {
-        payload: { commits },
+        payload: { commits, linkInfo },
     }: ReturnType<typeof CommitActions.getRepoCommitsSuccess>,
 ): CommitState =>
     produce(state, draft => {
         draft.commits = commits;
+        draft.pageInfo = linkInfo;
     });
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -42,6 +45,8 @@ const getReducerState = (state: any): CommitState => state[stateKey];
 
 const selectors = {
     getCommitList: (state: CommitState): Commit[] => state.commits,
+    getCommitListPageInfo: (state: CommitState): LinkHeader | undefined =>
+        state.pageInfo,
 };
 
 /* ------------- Export ------------- */

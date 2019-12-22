@@ -1,4 +1,5 @@
 import { Commit } from 'src/domain/commit';
+import { LinkHeader } from 'src/infra/api/interfaces';
 // import { PageInfo } from 'src/domain/connecitonManager';
 import { SagaThunkMeta } from './interfaces';
 import { createAction } from 'typesafe-actions';
@@ -15,10 +16,11 @@ export const getRepoCommits = createAction(
 
 export const getRepoCommitsSuccess = createAction(
     typePrefixFormat('GET_REPO_COMMITS_SUCCESS'),
-    (commits: Commit[], _meta?) => ({
+    (commits: Commit[], linkInfo?: LinkHeader, _meta?) => ({
         commits,
+        linkInfo,
     }),
-    (_contactMap, meta?: SagaThunkMeta) => meta,
+    (_contactMap, _linkInfo?, meta?: SagaThunkMeta) => meta,
 )();
 
 export type CommitActions =
