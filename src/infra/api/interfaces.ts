@@ -31,7 +31,7 @@ export interface LinkInfo {
 export interface LinkHeader {
     next?: LinkInfo;
     prev?: LinkInfo;
-    last: LinkInfo;
+    last?: LinkInfo;
 }
 
 export interface ApiResponse<T = SuccessResponse> {

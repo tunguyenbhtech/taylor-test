@@ -17,9 +17,16 @@ const useConnect = () => {
             CommitRedux.selectors.getCommitList,
         ),
     );
+    const pageInfo = useSelector(
+        R.pipe(
+            CommitRedux.getReducerState,
+            CommitRedux.selectors.getCommitListPageInfo,
+        ),
+    );
 
     const mapState = {
         commits,
+        pageInfo,
     };
 
     // mapDispatch
@@ -45,14 +52,14 @@ const useConnect = () => {
 
 const CommitListVM = () => {
     // Get state in store
-    const { commits, getRepoCommits } = useConnect();
+    const { commits, pageInfo, getRepoCommits } = useConnect();
 
     // fetch commit list
     useEffect(() => {
         getRepoCommits();
     }, [getRepoCommits]);
 
-    return <CommitListV />;
+    return <CommitListV commits={commits} pageInfo={pageInfo} />;
 };
 
 export default CommitListVM;
