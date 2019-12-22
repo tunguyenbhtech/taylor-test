@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import { PrivateRoute, PublicOnlyRoute, } from './auth/controlledRoute';
+import { PrivateRoute, PublicOnlyRoute } from './auth/ControlledRoute';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
