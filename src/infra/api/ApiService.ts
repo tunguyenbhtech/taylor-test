@@ -1,32 +1,8 @@
 import ky, { Options } from 'ky';
 
 import { API_CONFIG } from 'src/constants';
-import { UserToken } from 'src/domain/user';
-import { withUserToken } from './utilities';
-
-type RequestParams = {
-    url: string;
-    options?: Options;
-    data?: Record<string, any>;
-};
-
-type AuthRequestParams = {
-    userToken: UserToken;
-} & RequestParams;
-
-type Request = (params: RequestParams) => Promise<any>;
-type AuthRequest = (params: AuthRequestParams) => Promise<any>;
-
-export type SuccessResponse = {
-    success?: any;
-    message?: string;
-};
-
-export type FailureResponse = {
-    error: any;
-};
-
-export type ApiResponse = SuccessResponse | FailureResponse;
+import { Request, AuthRequest, FailureResponse } from './interfaces';
+import { withUserToken, getResponseWithLinkHeaderInfo } from './utilities';
 
 export interface ApiService {
     post: Request;
@@ -59,8 +35,11 @@ export default (): ApiService => {
                 },
             ],
             afterResponse: [
-                (response): void => {
-                    console.log('[DEV] API RESPONSE', { response });
+                (_request, _options, response): void => {
+                    console.log('[DEV] API RESPONSE', {
+                        response,
+                        link: response.headers.get('Link'),
+                    });
                 },
             ],
         },
@@ -68,7 +47,7 @@ export default (): ApiService => {
 
     const api = ky.extend(apiConfig);
 
-    const post: Request = ({ url, data, options }) => {
+    const post: Request = async ({ url, data, options }) => {
         // https://github.com/sindresorhus/ky#json
         if (data) {
             options = {
@@ -77,9 +56,11 @@ export default (): ApiService => {
             };
         }
 
-        return api.post(url, options).json();
+        const res = await api.post(url, options);
+
+        return getResponseWithLinkHeaderInfo(res);
     };
-    const get: Request = ({ url, data, options }) => {
+    const get: Request = async ({ url, data, options }) => {
         // https://github.com/sindresorhus/ky#searchparams
         if (data) {
             options = {
@@ -88,10 +69,16 @@ export default (): ApiService => {
             };
         }
 
-        return api.get(url, options).json();
+        const res = await api.get(url, options);
+
+        return getResponseWithLinkHeaderInfo(res);
     };
-    const del: Request = ({ url, options }) => api.delete(url, options).json();
-    const put: Request = ({ url, data, options }) => {
+    const del: Request = async ({ url, options }) => {
+        const res = await api.delete(url, options);
+
+        return getResponseWithLinkHeaderInfo(res);
+    };
+    const put: Request = async ({ url, data, options }) => {
         // https://github.com/sindresorhus/ky#json
         if (data) {
             options = {
@@ -100,7 +87,9 @@ export default (): ApiService => {
             };
         }
 
-        return api.put(url, options).json();
+        const res = await api.put(url, options);
+
+        return getResponseWithLinkHeaderInfo(res);
     };
 
     const authGet: AuthRequest = ({ url, userToken, data, options = {} }) =>
