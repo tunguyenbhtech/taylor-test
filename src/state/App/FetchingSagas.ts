@@ -1,4 +1,4 @@
-import { ErrorActions, FetchingActions } from 'src/state/actions';
+import { ErrorActions, FetchingActions } from 'src/state/_actions';
 // take from reducers & put to Fetching reducer
 import { Effect, put, takeEvery } from 'redux-saga/effects';
 

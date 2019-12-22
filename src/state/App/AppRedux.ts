@@ -1,6 +1,6 @@
 import { createReducer, getType } from 'typesafe-actions';
 
-import { AppActions } from '../actions';
+import { AppActions } from 'src/state/_actions';
 import { AppState } from './interfaces';
 import * as R from 'ramda';
 

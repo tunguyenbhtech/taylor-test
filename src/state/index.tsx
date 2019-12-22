@@ -52,6 +52,6 @@ interface Props {
 }
 
 /* ------------- Create Provider ------------- */
-export const ReduxProvider: FC<Props> = ({ loading, children }) => (
+export const ReduxProvider: FC<Props> = ({ children }) => (
     <ReduxProviderFactory store={store}>{children}</ReduxProviderFactory>
 );

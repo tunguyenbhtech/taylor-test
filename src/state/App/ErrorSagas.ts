@@ -1,6 +1,6 @@
 import { Effect, put, takeEvery } from 'redux-saga/effects';
 
-import { ErrorActions } from '../actions';
+import { ErrorActions } from 'src/state/_actions';
 import { SagaIterator } from 'redux-saga';
 import { getType } from 'typesafe-actions';
 

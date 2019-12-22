@@ -1,4 +1,4 @@
-import { AppActions, ErrorActions } from '../actions';
+import { AppActions, ErrorActions } from 'src/state/_actions';
 import { Effect, put, takeLatest } from 'redux-saga/effects';
 
 import { AwilixContainer } from 'awilix';

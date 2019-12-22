@@ -2,7 +2,7 @@ import * as R from 'ramda';
 
 import { createReducer, getType } from 'typesafe-actions';
 
-import { ErrorActions } from '../actions';
+import { ErrorActions } from 'src/state/_actions';
 import { ErrorState } from './interfaces';
 import { produce } from 'immer';
 

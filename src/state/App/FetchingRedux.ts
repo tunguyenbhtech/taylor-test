@@ -1,6 +1,6 @@
 import { createReducer, getType } from 'typesafe-actions';
 
-import { FetchingActions } from '../actions';
+import { FetchingActions } from 'src/state/_actions';
 import { FetchingState } from './interfaces';
 import { produce } from 'immer';
 
