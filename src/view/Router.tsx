@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Button from 'react-bootstrap/Button';
+import CommitListPage from './CommitList/CommitListVM';
 import { ErrorActions } from 'src/state/_actions';
 import { ErrorRedux } from 'src/state/reducers';
 import Modal from 'react-bootstrap/Modal';
@@ -60,19 +61,7 @@ const Router = () => {
     return (
         <BrowserRouter>
             <Switch>
-                {/* <PrivateRoute exact component={HomePage} path='/' />
-          <Route exact component={PrivacyPage} path='/privacy' />
-          <Route exact component={TermsOfServicePage} path='/terms' />
-          <Route exact component={SecurityStatementPage} path='/security' />
-          <PublicOnlyRoute component={LoginPage} path='/login' />
-          <PublicOnlyRoute component={ResetRequestVM} path='/reset-password' />
-          <PublicOnlyRoute component={ResetPasswordVM} path='/reset/:token' />
-          <PrivateRoute component={AccoutingPage} path='/accounting' />
-          <PrivateRoute component={InvoicePage} path='/invoice/:id/:clientId/:projectId?' />
-          <PrivateRoute component={InvoicePaymentPage} path='/invoice-payment/:clientId/:projectId?' />
-          <PrivateRoute component={ PaymentPage } path='/payment' /> 
-          <PrivateRoute component={ PaymentMethods } path='/payment-methods' />
-          <PrivateRoute component={ AccountSettingsPage } path='/account-settings' /> */}
+                <Route component={CommitListPage} />
             </Switch>
 
             <Modal
