@@ -1,0 +1,27 @@
+{
+  "eslint.autoFixOnSave": true,
+  "[javascript]":  {
+    "editor.formatOnSave":  false,
+  },
+  "[javascriptreact]":  {
+    "editor.formatOnSave":  false,
+  },
+  "[typescript]":  {
+    "editor.formatOnSave":  false,
+  },
+  "[typescriptreact]":  {
+    "editor.formatOnSave":  false,
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ],
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
