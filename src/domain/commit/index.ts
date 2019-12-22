@@ -21,4 +21,8 @@ export interface Commit {
     message: string;
     comment_count: number;
     verfication: CommitVerfication;
+    tree: {
+        url: string;
+        sha: string;
+    };
 }
