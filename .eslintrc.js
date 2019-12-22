@@ -13,6 +13,9 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'warn',
     'prefer-const': 'warn',
 
+    // off
+    '@typescript-eslint/camelcase': 'off',
+
     // error
     // 'array-bracket-spacing': ['error', 'always'],
   },
