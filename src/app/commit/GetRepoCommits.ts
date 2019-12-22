@@ -16,7 +16,7 @@ export interface GetRepoCommitsBehaviourRes {
     error?: Error;
 }
 
-export type GetRepoCommitsBehaviour = (page: number, cb: Callbacks) => any;
+export type GetRepoCommitsBehaviour = (cb: Callbacks, page?: number) => any;
 
 export default ({
     commitRepository,
@@ -29,8 +29,8 @@ export default ({
      * @returns
      */
     const getRepoCommitsBehaviour: GetRepoCommitsBehaviour = async (
-        page,
         { onSuccess, onError },
+        page,
     ) => {
         try {
             const commitListRes = await commitRepository.getRepoCommits(page);

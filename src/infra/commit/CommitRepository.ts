@@ -14,7 +14,7 @@ export class CommitRepository {
         this.apiService = apiService;
     }
 
-    async getRepoCommits(page: number): Promise<Commit[]> {
+    async getRepoCommits(page?: number): Promise<Commit[]> {
         const url = `/repos/${API_CONFIG.GITHUB.user}/${API_CONFIG.GITHUB.repo}/commits`;
 
         const res: CommitResponse[] = await this.apiService.get({
