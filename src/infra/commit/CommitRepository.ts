@@ -14,17 +14,17 @@ export class CommitRepository {
         this.apiService = apiService;
     }
 
-    async getRepoCommits(page: number): Promise<Commit> {
+    async getRepoCommits(page: number): Promise<Commit[]> {
         const url = `/repos/${API_CONFIG.GITHUB.user}/${API_CONFIG.GITHUB.repo}/commits`;
 
-        const res: CommitResponse = await this.apiService.get({
+        const res: CommitResponse[] = await this.apiService.get({
             url,
             data: {
                 page,
             },
         });
 
-        return this._serializeCommit(res);
+        return res.map(this._serializeCommit);
     }
 
     private _serializeCommit(res: CommitResponse): Commit {
