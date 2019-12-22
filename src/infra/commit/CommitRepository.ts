@@ -1,4 +1,4 @@
-import { API_CONFIG } from 'src/constants';
+import { API_CONFIG, APP_CONFIG } from 'src/constants';
 import { ApiService } from 'src/infra/api/ApiService';
 import { Commit } from 'src/domain/commit';
 import { CommitResponse } from './interfaces';
@@ -21,6 +21,7 @@ export class CommitRepository {
             url,
             data: {
                 page,
+                per_page: APP_CONFIG.QUERY_PAGE_SIZE,
             },
         });
 

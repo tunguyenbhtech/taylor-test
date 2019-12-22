@@ -55,7 +55,12 @@ export default (): ApiService => {
         hooks: {
             beforeRequest: [
                 (request): void => {
-                    console.log('[DEV] API ', { request });
+                    console.log('[DEV] API REQUEST', { request });
+                },
+            ],
+            afterResponse: [
+                (response): void => {
+                    console.log('[DEV] API RESPONSE', { response });
                 },
             ],
         },
