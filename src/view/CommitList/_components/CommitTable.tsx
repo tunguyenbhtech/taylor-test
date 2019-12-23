@@ -7,9 +7,16 @@ import { usePagination, useTable } from 'react-table';
 import { APP_CONFIG } from 'src/constants';
 import { CommitActions } from 'src/state/_actions';
 import { CommitRedux } from 'src/state/reducers';
+import Image from 'react-bootstrap/Image';
+import Pagination from './Pagination';
 import Table from 'react-bootstrap/Table';
 import { format } from 'date-fns';
-import Pagination from './Pagination';
+import styled from 'styled-components';
+
+const AvatarImage = styled(Image)`
+    width: 30px;
+    height: 30px;
+`;
 
 // connect redux
 const useConnect = () => {
@@ -92,6 +99,13 @@ const CommitTable: FC = (): JSX.Element => {
                 Header: 'Author',
                 accessor: 'author.name',
                 Cell: ({ cell: { value } }: any) => value || '-',
+            },
+            {
+                Header: 'Avatar',
+                accessor: 'author.avatar_url',
+                Cell: ({ cell: { value } }: any) => (
+                    <AvatarImage src={value} roundedCircle />
+                ),
             },
         ],
         [],
