@@ -31,6 +31,10 @@ export class CommitRepository {
             },
         });
 
+        if (this.apiService.isFailureResponse(res.data)) {
+            throw new Error(res.data.message);
+        }
+
         return {
             commits: res.data.map(this._serializeCommit),
             linkInfo: res.meta?.link,

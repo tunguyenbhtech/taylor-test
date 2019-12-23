@@ -17,7 +17,8 @@ export type AuthRequest = (params: AuthRequestParams) => Promise<any>;
 export type SuccessResponse = any;
 
 export type FailureResponse = {
-    error: any;
+    message: string;
+    documentation_url?: string;
 };
 
 export interface LinkInfo {

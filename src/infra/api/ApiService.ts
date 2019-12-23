@@ -111,7 +111,7 @@ export default (): ApiService => {
      * @returns {arg is FailureResponse}
      */
     const isFailureResponse = (arg: any): arg is FailureResponse => {
-        return arg.error !== undefined;
+        return arg.message !== undefined;
     };
 
     return {
