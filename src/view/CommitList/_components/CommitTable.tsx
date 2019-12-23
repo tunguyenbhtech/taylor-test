@@ -5,12 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePagination, useTable } from 'react-table';
 
 import { APP_CONFIG } from 'src/constants';
-import { Commit } from 'src/domain/commit';
 import { CommitActions } from 'src/state/_actions';
 import { CommitRedux } from 'src/state/reducers';
-import { LinkHeader } from 'src/infra/api/interfaces';
 import Table from 'react-bootstrap/Table';
 import { format } from 'date-fns';
+import Pagination from './Pagination';
 
 // connect redux
 const useConnect = () => {
@@ -57,20 +56,21 @@ const useConnect = () => {
 const CommitTable: FC = (): JSX.Element => {
     const { commits: data, pageInfo, getRepoCommits } = useConnect();
 
-    // fetch commit list
-    useEffect(() => {
-        getRepoCommits();
-    }, [getRepoCommits]);
-
     const controlledPageCount = useMemo<number>(() => {
         if (!pageInfo) return 0;
 
         // get last page number from pageInfo
-        const last = pageInfo.last?.page;
+        // github api response link header won't include last page when requesting last page so we re-calculate last page from prev page
+        const prevToLast = pageInfo.prev?.page
+            ? Number(pageInfo.prev?.page) + 1
+            : 0;
+        const last = pageInfo.last?.page || prevToLast;
 
         return last ? Number(last) : 0;
     }, [pageInfo]);
 
+    // react table hasn't had typing for new version yet
+    // TODO: update to use new react table typing when released
     const COLUMNS = useMemo(
         () => [
             {
@@ -133,6 +133,13 @@ const CommitTable: FC = (): JSX.Element => {
         usePagination,
     );
 
+    // fetch commit list
+    useEffect(() => {
+        const pageNumber = pageIndex + 1; // react table page index start at 0 while github page start at 1
+
+        getRepoCommits(pageNumber);
+    }, [getRepoCommits, pageIndex]);
+
     return (
         <div>
             <div className="d-flex" style={{ flex: 1 }}>
@@ -165,6 +172,18 @@ const CommitTable: FC = (): JSX.Element => {
                         )}
                     </tbody>
                 </Table>
+            </div>
+
+            <div>
+                <Pagination
+                    canNextPage={canNextPage}
+                    canPreviousPage={canPreviousPage}
+                    gotoPage={gotoPage}
+                    pageCount={pageCount}
+                    pageIndex={pageIndex}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                />
             </div>
         </div>
     );
