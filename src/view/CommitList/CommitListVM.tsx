@@ -2,7 +2,7 @@
 import CommitListV from './CommitListV';
 import React from 'react';
 
-const CommitListVM = () => {
+const CommitListVM = (): JSX.Element => {
     return <CommitListV />;
 };
 

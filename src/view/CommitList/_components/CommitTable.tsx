@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePagination, useTable } from 'react-table';
 
 import { APP_CONFIG } from 'src/constants';
-import { CommitActions } from 'src/state/_actions';
 import { CommitRedux } from 'src/state/reducers';
+import { CommitThunks } from 'src/state/thunks';
 import Image from 'react-bootstrap/Image';
 import Pagination from './Pagination';
 import Table from 'react-bootstrap/Table';
 import { format } from 'date-fns';
 import styled from 'styled-components';
+import { AppThunkDispatch } from 'src/state/common';
 
 const AvatarImage = styled(Image)`
     width: 30px;
@@ -40,16 +41,12 @@ const useConnect = () => {
     };
 
     // mapDispatch
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppThunkDispatch>();
 
     const mapDispatch = useMemo(
         () => ({
             getRepoCommits: (page?: number) =>
-                dispatch(
-                    CommitActions.getRepoCommits(page, {
-                        thunk: true,
-                    }),
-                ),
+                dispatch(CommitThunks.getRepoCommits(page)),
         }),
         [dispatch],
     );
@@ -149,9 +146,15 @@ const CommitTable: FC = (): JSX.Element => {
 
     // fetch commit list
     useEffect(() => {
-        const pageNumber = pageIndex + 1; // react table page index start at 0 while github page start at 1
+        (async (): Promise<void> => {
+            const pageNumber = pageIndex + 1; // react table page index start at 0 while github page start at 1
 
-        getRepoCommits(pageNumber);
+            try {
+                await getRepoCommits(pageNumber);
+            } catch (error) {
+                console.log('[Get repo commits error:]', { error });
+            }
+        })();
     }, [getRepoCommits, pageIndex]);
 
     return (
