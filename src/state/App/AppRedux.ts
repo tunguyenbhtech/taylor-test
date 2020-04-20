@@ -1,8 +1,5 @@
-import { createReducer, getType } from 'typesafe-actions';
-
-import { AppActions } from 'src/state/_actions';
 import { AppState } from './interfaces';
-import * as R from 'ramda';
+import { createReducer } from 'typesafe-actions';
 
 const stateKey = 'app';
 
@@ -10,14 +7,9 @@ const stateKey = 'app';
 const INITIAL_STATE: AppState = {};
 
 /* ------------- Reducers ------------- */
-const initializeApp = R.identity;
-const initializeAppFinished = R.identity;
 
 /* ------------- Hookup Reducers To Types ------------- */
-const reducer = createReducer(INITIAL_STATE, {
-    [getType(AppActions.initializeApp)]: initializeApp,
-    [getType(AppActions.initializeAppFinished)]: initializeAppFinished,
-});
+const reducer = createReducer(INITIAL_STATE, {});
 
 const reducerMap = { [stateKey]: reducer };
 
@@ -35,5 +27,6 @@ export default {
 
     stateKey,
     getReducerState,
+    reducer,
     reducerMap,
 };

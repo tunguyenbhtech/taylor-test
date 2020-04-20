@@ -1,11 +1,20 @@
 import * as awilix from 'awilix';
 
+import makeApiService, { ApiService } from 'src/infra/api/ApiService';
+import makeGetRepoCommits, {
+    GetRepoCommitsBehaviour,
+} from 'src/app/commit/GetRepoCommits';
+
 import { CommitRepository } from 'src/infra/commit/CommitRepository';
-import makeApiService from 'src/infra/api/ApiService';
-import makeGetRepoCommits from 'src/app/commit/GetRepoCommits';
+
+export interface Cradle {
+    apiService: ApiService;
+    commitRepository: CommitRepository;
+    getRepoCommits: GetRepoCommitsBehaviour;
+}
 
 // Create the container and set the injectionMode to PROXY (which is also the default).
-const container = awilix.createContainer();
+const container = awilix.createContainer<Cradle>();
 
 /* ------------- Infra ------------- */
 container

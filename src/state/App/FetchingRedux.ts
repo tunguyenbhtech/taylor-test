@@ -49,5 +49,6 @@ export default {
 
     stateKey,
     getReducerState,
+    reducer,
     reducerMap,
 };

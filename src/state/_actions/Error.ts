@@ -1,6 +1,5 @@
-import { createAction, createCustomAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
-import { SagaThunkMeta } from './interfaces';
 import { createActionTypePrefixFormat } from '../common';
 
 const typePrefixFormat = createActionTypePrefixFormat('Error');
@@ -15,16 +14,6 @@ export const currentErrorFinish = createAction(
     typePrefixFormat('CURRENT_ERROR_FINISH'),
 )();
 
-export const requestFailure = createCustomAction(
-    typePrefixFormat('REQUEST_FAILURE'),
-    (error?: boolean | Error, payload?: any, meta?: SagaThunkMeta) => ({
-        payload,
-        error,
-        meta,
-    }),
-);
-
 export type ErrorActions =
     | ReturnType<typeof errorsQueueAppend>
-    | ReturnType<typeof currentErrorFinish>
-    | ReturnType<typeof requestFailure>;
+    | ReturnType<typeof currentErrorFinish>;

@@ -1,5 +1,3 @@
-import * as R from 'ramda';
-
 import { createReducer, getType } from 'typesafe-actions';
 
 import { Commit } from 'src/domain/commit';
@@ -8,7 +6,7 @@ import { CommitState } from './interfaces';
 import { LinkHeader } from 'src/infra/api/interfaces';
 import { produce } from 'immer';
 
-const stateKey = 'contact';
+const stateKey = 'commit';
 
 /* ------------- Initial State ------------- */
 const INITIAL_STATE: CommitState = {
@@ -17,8 +15,6 @@ const INITIAL_STATE: CommitState = {
 };
 
 /* ------------- Reducers ------------- */
-const getRepoCommits = R.identity;
-
 const getRepoCommitsSuccess = (
     state: CommitState,
     {
@@ -32,7 +28,6 @@ const getRepoCommitsSuccess = (
 
 /* ------------- Hookup Reducers To Types ------------- */
 const reducer = createReducer(INITIAL_STATE, {
-    [getType(CommitActions.getRepoCommits)]: getRepoCommits,
     [getType(CommitActions.getRepoCommitsSuccess)]: getRepoCommitsSuccess,
 });
 
@@ -58,5 +53,6 @@ export default {
 
     stateKey,
     getReducerState,
+    reducer,
     reducerMap,
 };

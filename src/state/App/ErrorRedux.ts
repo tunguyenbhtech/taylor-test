@@ -1,5 +1,3 @@
-import * as R from 'ramda';
-
 import { createReducer, getType } from 'typesafe-actions';
 
 import { ErrorActions } from 'src/state/_actions';
@@ -52,14 +50,10 @@ const currentErrorFinish = (state: ErrorState): ErrorState =>
         }
     });
 
-const requestFailure = R.identity;
-
 /* ------------- Hookup Reducers To Types ------------- */
 const reducer = createReducer(INITIAL_STATE, {
     [getType(ErrorActions.errorsQueueAppend)]: errorsQueueAppend,
     [getType(ErrorActions.currentErrorFinish)]: currentErrorFinish,
-
-    [getType(ErrorActions.requestFailure)]: requestFailure,
 });
 
 const reducerMap = { [stateKey]: reducer };
@@ -81,5 +75,6 @@ export default {
 
     stateKey,
     getReducerState,
+    reducer,
     reducerMap,
 };

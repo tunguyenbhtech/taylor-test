@@ -1,25 +1,25 @@
 import { Reducer, Store, applyMiddleware, compose, createStore } from 'redux';
-import createSagaMiddleware, { Saga } from 'redux-saga';
+import thunk from 'redux-thunk';
 
 import container from 'src/container';
-import { middleware as thunkMiddleware } from 'redux-saga-thunk';
 
 interface CreatedStore {
     store: Store;
 }
 
 // creates the store
-export default (rootReducer: Reducer, rootSaga: Saga): CreatedStore => {
+export default (rootReducer: Reducer): CreatedStore => {
     /* ------------- Redux Configuration ------------- */
 
-    const middleware = [thunkMiddleware];
+    const middleware = [];
     const enhancers = [];
 
-    /* ------------- Saga Middleware ------------- */
-
-    const sagaMiddleware = createSagaMiddleware();
-    middleware.push(sagaMiddleware);
     // middleware.push(GraphQLClient.middleware())
+
+    /* ------------- Thunk Middleware ------------- */
+    // inject container to thunk's extra argument
+    const thunkMiddleWare = thunk.withExtraArgument(container);
+    middleware.push(thunkMiddleWare);
 
     /* ------------- Assemble Middleware ------------- */
 
@@ -28,10 +28,6 @@ export default (rootReducer: Reducer, rootSaga: Saga): CreatedStore => {
     /* ------------- createStore ------------- */
 
     const store = createStore(rootReducer, compose(...enhancers));
-
-    // kick off root saga
-    // sagaMiddleware.run(rootSaga, getFirebase)
-    sagaMiddleware.run(rootSaga, container);
 
     return { store };
 };
