@@ -12,13 +12,7 @@ interface Dependencies {
     commitRepository: CommitRepository;
 }
 
-export interface GetRepoCommitsBehaviourRes {
-    commits?: Commit[];
-    linkInfo?: LinkHeader;
-    error?: Error;
-}
-
-export type GetRepoCommitsBehaviour = (cb: Callbacks, page?: number) => any;
+export type GetRepoCommitsBehaviour = (cb: Callbacks, page?: number) => void;
 
 export default ({
     commitRepository,
@@ -37,9 +31,9 @@ export default ({
         try {
             const commitListRes = await commitRepository.getRepoCommits(page);
 
-            return onSuccess(commitListRes.commits, commitListRes.linkInfo);
+            onSuccess(commitListRes.commits, commitListRes.linkInfo);
         } catch (error) {
-            return onError(error);
+            onError(error);
         }
     };
 
