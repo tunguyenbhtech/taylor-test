@@ -18,6 +18,9 @@ export const getRepoCommits = (page?: number): AppThunk<Promise<void>> => (
                     dispatch(
                         CommitActions.getRepoCommitsSuccess(commits, linkInfo),
                     );
+
+                    // finish promise
+                    resolve();
                 },
                 onError: error => {
                     dispatch(ErrorThunks.requestFailure(error));
