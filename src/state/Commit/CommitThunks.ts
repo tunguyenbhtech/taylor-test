@@ -8,6 +8,7 @@ export const getRepoCommits = (page?: number): AppThunk<Promise<void>> => (
     _getState,
     container,
 ) => {
+    // use promise to throw / reject error inside callback
     return new Promise((resolve, reject) => {
         const getRepoCommitsBehaviour = container.cradle.getRepoCommits;
 
@@ -20,6 +21,8 @@ export const getRepoCommits = (page?: number): AppThunk<Promise<void>> => (
                 },
                 onError: error => {
                     dispatch(ErrorThunks.requestFailure(error));
+
+                    // rejcect error to outer function
                     reject(error);
                 },
             },
