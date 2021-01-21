@@ -13,7 +13,7 @@
     "awilix": "^4.2.3",
     "bootstrap": "^4.4.1",
     "date-fns": "^2.8.1",
-    "immer": "^5.1.0",
+    "immer": "^8.0.1",
     "ky": "^0.16.1",
     "parse-link-header": "^1.0.1",
     "ramda": "^0.26.1",
